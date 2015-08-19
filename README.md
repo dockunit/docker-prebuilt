@@ -1,4 +1,4 @@
-# Dockunit Pre-built Docker Images
+# Dockunit Prebuilt Docker Images
 
 [Dockunit](https://github.com/dockunit/dockunit) is a tool that allows you containerize your unit tests. No longer must software developers create environments to run test suites. Dockunit allows you to define a list of test environments as Docker images to run your tests. In combination with Dockunit, [Dockunit.io](http://dockunit.io) can be used to achieve continuous containerized integration with your projects.
 
