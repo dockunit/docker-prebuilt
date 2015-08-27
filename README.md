@@ -10,4 +10,4 @@ This repository contains handy pre-built Docker images for use with Dockunit. If
 1. Download and setup dockunit via [npm](https://www.npmjs.com/dockunit)
 2. Add a `Dockunit.json` to your Github repository. There are a number of [examples](https://www.npmjs.com/package/dockunit#dockunit-json-examples) you can start with. Reference one of these images in your `Dockunit.json` file.
 3. Run your software unit tests by running the `dockunit` command.
-4. Create a free account on Dockunit.io and add a project that connects to your Github repo.
+4. Create a free account on [Dockunit.io](https://dockunit.io) and add a project that connects to your Github repo.
