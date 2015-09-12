@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+version="$1"
+
+echo "Installing WordPress $version"
+
+if [ "$version" = "latest" ]
+then
+	svn co --quiet --trust-server-cert --non-interactive https://core.svn.wordpress.org/trunk/ /temp/wp
+else
+	svn co --quiet --trust-server-cert --non-interactive https://core.svn.wordpress.org/tags/$version /temp/wp
+fi

@@ -1,0 +1,17 @@
+#!/usr/local/bin/php
+<?php
+
+if ( ! isset( $argv[1] ) ) {
+	echo "\nNo plugin provided\n";
+	exit(1);
+}
+
+$plugin = $argv[1];
+
+require_once( '/temp/wp/wp-load.php' );
+
+$result = activate_plugin( $plugin );
+if ( is_wp_error( $result ) ) {
+	echo "\nCould not activate plugin";
+	exit(1);
+}
