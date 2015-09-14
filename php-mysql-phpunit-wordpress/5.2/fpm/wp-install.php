@@ -29,7 +29,17 @@ require_once(ABSPATH . 'wp-settings.php');
 
 file_put_contents( '/temp/wp/wp-config.php', $config_file );
 
-require_once( '/temp/wp/wp-admin/includes/upgrade.php' );
+define( 'WP_INSTALLING', true );
+
+$_SERVER['HTTP_HOST'] = 'test';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.0';
+$_SERVER['HTTP_USER_AGENT'] = '';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+$_SERVER['REQUEST_URI'] = '/wp-admin/plugins.php';
+
 require_once( '/temp/wp/wp-load.php' );
+require_once( '/temp/wp/wp-admin/includes/upgrade.php' );
 
 wp_install( 'Test', 'admin', 'test@test.com', false, '', '12345' );

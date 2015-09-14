@@ -11,3 +11,11 @@ then
 else
 	svn co --quiet --trust-server-cert --non-interactive https://core.svn.wordpress.org/tags/$version /temp/wp
 fi
+
+mkdir /temp/wp/wp-content/plugins/test
+mkdir /temp/wp/wp-content/themes/test
+
+cp -r * /temp/wp/wp-content/plugins/test
+cp -r * /temp/wp/wp-content/themes/test
+
+php /temp/wp-install.php

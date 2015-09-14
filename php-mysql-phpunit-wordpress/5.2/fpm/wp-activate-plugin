@@ -6,12 +6,23 @@ if ( ! isset( $argv[1] ) ) {
 	exit(1);
 }
 
-$plugin = $argv[1];
+$_SERVER['HTTP_HOST'] = 'test';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.0';
+$_SERVER['HTTP_USER_AGENT'] = '';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+$_SERVER['REQUEST_URI'] = '/wp-admin/plugins.php';
 
 require_once( '/temp/wp/wp-load.php' );
 
-$result = activate_plugin( $plugin );
+require_once( '/temp/wp/wp-admin/includes/admin.php' );
+
+$result = activate_plugin( 'test/' . $argv[1] );
+
 if ( is_wp_error( $result ) ) {
-	echo "\nCould not activate plugin";
+	echo "\nCould not activate plugin\n";
 	exit(1);
+} else {
+	echo "\nPlugin activated successfully\n";
 }

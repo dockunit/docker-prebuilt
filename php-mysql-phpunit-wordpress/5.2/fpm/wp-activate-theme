@@ -1,13 +1,6 @@
 #!/usr/local/bin/php
 <?php
 
-if ( ! isset( $argv[1] ) ) {
-	echo "\nNo theme provided\n";
-	exit(1);
-}
-
-$theme = $argv[1];
-
 require_once( '/temp/wp/wp-load.php' );
 
-switch_theme( $theme );
+switch_theme( 'test' );
