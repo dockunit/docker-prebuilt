@@ -124,7 +124,10 @@ RUN apt-get update \
 
 RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+RUN curl --insecure -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+RUN service mysql start \
+    && mysql --user="root" --execute="CREATE DATABASE test;"
+    
