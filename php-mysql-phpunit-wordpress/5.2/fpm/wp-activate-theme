@@ -1,6 +1,21 @@
 #!/usr/local/bin/php
 <?php
 
+if ( ! isset( $argv[1] ) ) {
+	echo "\nNo theme provided\n";
+	exit(1);
+}
+
+$_SERVER['HTTP_HOST'] = 'test';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+$_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.0';
+$_SERVER['HTTP_USER_AGENT'] = '';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+$_SERVER['REQUEST_URI'] = '/wp-admin/plugins.php';
+
 require_once( '/temp/wp/wp-load.php' );
 
-switch_theme( 'test' );
+require_once( '/temp/wp/wp-admin/includes/admin.php' );
+
+switch_theme( $argv[1] );
