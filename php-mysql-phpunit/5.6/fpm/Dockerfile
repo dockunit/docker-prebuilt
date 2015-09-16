@@ -125,5 +125,5 @@ RUN apt-get update \
 
 RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
-RUN curl -sS https://getcomposer.org/installer | php \
+RUN curl --insecure -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
