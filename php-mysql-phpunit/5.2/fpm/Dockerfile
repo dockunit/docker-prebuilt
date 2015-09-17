@@ -24,7 +24,6 @@ ENV buildDeps=" \
         libreadline6-dev \
         libssl-dev \
         libxml2-dev \
-        ca-certificates \
         curl \
         libxml2 \
         autoconf \
@@ -100,7 +99,6 @@ ENV peclDeps=" \
     curl \
     libssl-dev \
     libxml2-dev \
-    ca-certificates \
     make \
     autoconf \
     gcc \
@@ -158,8 +156,4 @@ RUN echo 'include_path = ".:/root/phpunit/phpunit:/root/phpunit/phpunit-mock-obj
 
 RUN apt-get update \
     && apt-get install -y subversion wget --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update \
-    && apt-get install -y ca-certificates \
     && rm -rf /var/lib/apt/lists/*

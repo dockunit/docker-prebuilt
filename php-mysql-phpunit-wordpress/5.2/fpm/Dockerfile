@@ -24,7 +24,6 @@ ENV buildDeps=" \
         libreadline6-dev \
         libssl-dev \
         libxml2-dev \
-        ca-certificates \
         curl \
         libxml2 \
         autoconf \
@@ -100,7 +99,6 @@ ENV peclDeps=" \
     curl \
     libssl-dev \
     libxml2-dev \
-    ca-certificates \
     make \
     autoconf \
     gcc \
