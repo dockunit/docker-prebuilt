@@ -155,5 +155,5 @@ RUN apt-get update && apt-get install -y git --no-install-recommends && rm -rf /
 RUN echo 'include_path = ".:/root/phpunit/phpunit:/root/phpunit/phpunit-mock-objects:/root/phpunit/php-timer:/root/phpunit/php-text-template:/root/phpunit/php-token-stream:/usr/local/lib/php:/root/phpunit/dbunit:/root/phpunit/php-file-iterator:/root/phpunit/php-code-coverage"' > /usr/local/etc/php/php.ini
 
 RUN apt-get update \
-    && apt-get install -y subversion wget --no-install-recommends \
+    && apt-get install -y subversion git wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*

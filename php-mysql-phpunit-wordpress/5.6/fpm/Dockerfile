@@ -122,7 +122,7 @@ RUN curl -SL --insecure "https://phar.phpunit.de/phpunit.phar" -o phpunit.phar \
     && mv phpunit.phar /usr/bin/phpunit
 
 RUN apt-get update \
-    && apt-get install -y subversion wget --no-install-recommends \
+    && apt-get install -y subversion git wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock

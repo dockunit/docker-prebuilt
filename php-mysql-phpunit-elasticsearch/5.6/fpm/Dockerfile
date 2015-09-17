@@ -137,7 +137,7 @@ RUN cd ~ \
     && ln -s ~/elasticsearch-1.7.1/bin/elasticsearch /usr/bin/elasticsearch
 
 RUN apt-get update \
-    && apt-get install -y subversion wget --no-install-recommends \
+    && apt-get install -y subversion git wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
