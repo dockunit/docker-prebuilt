@@ -80,6 +80,7 @@ RUN extensions=" \
         gd \
         mysqli \
         soap \
+        zip \
         mcrypt \
         mbstring \
     "; \

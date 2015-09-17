@@ -79,6 +79,7 @@ ENV extensionDeps=" \
 RUN extensions=" \
         gd \
         mysqli \
+        zip \
         soap \
         mcrypt \
         mbstring \
