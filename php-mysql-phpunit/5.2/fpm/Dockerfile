@@ -6,6 +6,10 @@ FROM debian:wheezy
 RUN apt-get update && apt-get install -y mysql-server libmysqlclient-dev --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update \
+    && apt-get install -y ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
@@ -156,3 +160,6 @@ RUN apt-get update \
     && apt-get install -y subversion wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update \
+    && apt-get install -y ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
