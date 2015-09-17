@@ -130,6 +130,9 @@ RUN curl --insecure -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
 RUN service mysql start \
     && mysql --user="root" --execute="CREATE DATABASE test;"
     
