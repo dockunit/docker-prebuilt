@@ -34,7 +34,7 @@ ENV buildDeps=" \
 
 RUN set -x \
     && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://downloads.php.net/~ab/php-7.0.0RC1.tar.gz" -o php.tar.bz \
+    && curl -SL "https://downloads.php.net/~ab/php-7.0.0RC4.tar.gz" -o php.tar.bz \
     && mkdir -p /usr/src/php \
     && tar -xf php.tar.bz -C /usr/src/php --strip-components=1 \
     && rm php.tar.bz* \
