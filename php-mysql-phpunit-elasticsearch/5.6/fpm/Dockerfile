@@ -133,7 +133,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
     && rm -rf /var/lib/apt/lists/*
 
 RUN cd ~ \
-    && curl -SL "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.0.0.tar.gz" -o elasticsearch-1.7.1.tar.gz --insecure \
+    && curl -SL "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz" -o elasticsearch-1.7.1.tar.gz --insecure \
     && tar -xf elasticsearch-1.7.1.tar.gz \
     && ln -s ~/elasticsearch-1.7.1/bin/elasticsearch /usr/bin/elasticsearch
 
