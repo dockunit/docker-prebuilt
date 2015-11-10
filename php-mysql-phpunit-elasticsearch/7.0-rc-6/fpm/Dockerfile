@@ -100,7 +100,6 @@ ENV peclDeps=" \
 
 RUN apt-get update && apt-get install -y --no-install-recommends $peclDeps \
     && pecl install memcache && echo extension=memcache.so > $PHP_INI_DIR/conf.d/ext-memcache.ini \
-    && pecl install redis && echo extension=redis.so > $PHP_INI_DIR/conf.d/ext-redis.ini \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $peclDeps \
     && apt-get autoremove
 
