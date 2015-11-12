@@ -15,8 +15,6 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 
-COPY php-5.2.17-*.patch /tmp/
-
 ENV buildDeps=" \
         bzip2 \
         file \
@@ -36,19 +34,11 @@ ENV buildDeps=" \
 
 RUN set -x \
     && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "http://museum.php.net/php5/php-5.2.17.tar.gz" -o php.tar.bz \
+    && curl -SL "https://downloads.php.net/~ab/php-7.0.0RC6.tar.gz" -o php.tar.bz \
     && mkdir -p /usr/src/php \
     && tar -xf php.tar.bz -C /usr/src/php --strip-components=1 \
     && rm php.tar.bz* \
     && cd /usr/src/php \
-    && patch -p1 < /tmp/php-5.2.17-libxml2.patch \
-    && patch -p1 < /tmp/php-5.2.17-openssl.patch \
-    && ln -s /usr/lib/x86_64-linux-gnu/libjpeg.a /usr/lib/libjpeg.a \
-    && ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so \
-    && ln -s /usr/lib/x86_64-linux-gnu/libpng.a /usr/lib/libpng.a \
-    && ln -s /usr/lib/x86_64-linux-gnu/libpng.so /usr/lib/libpng.so \
-    && ln -s /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/libmysqlclient.so \
-    && ln -s /usr/lib/x86_64-linux-gnu/libmysqlclient.a /usr/lib/libmysqlclient.a \
     && ./configure \
         --with-config-file-path="$PHP_INI_DIR" \
         --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
@@ -70,6 +60,9 @@ RUN set -x \
     && apt-get autoremove
 
 COPY docker-php-ext-* /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/docker-php-ext-configure \
+    && chmod +x /usr/local/bin/docker-php-ext-install
 
 ENV extensionDeps=" \
         autoconf \
@@ -107,7 +100,6 @@ ENV peclDeps=" \
 
 RUN apt-get update && apt-get install -y --no-install-recommends $peclDeps \
     && pecl install memcache && echo extension=memcache.so > $PHP_INI_DIR/conf.d/ext-memcache.ini \
-    && pecl install redis && echo extension=redis.so > $PHP_INI_DIR/conf.d/ext-redis.ini \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $peclDeps \
     && apt-get autoremove
 
@@ -125,35 +117,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     less \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y git --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && mkdir ~/phpunit \
-    && cd ~/phpunit \
-    && git clone git://github.com/sebastianbergmann/phpunit.git \
-    && git clone git://github.com/sebastianbergmann/dbunit.git \
-    && git clone git://github.com/sebastianbergmann/php-file-iterator.git \
-    && git clone git://github.com/sebastianbergmann/php-text-template.git \
-    && git clone git://github.com/sebastianbergmann/php-code-coverage.git \
-    && git clone git://github.com/sebastianbergmann/php-token-stream.git \
-    && git clone git://github.com/sebastianbergmann/php-timer.git \
-    && git clone git://github.com/sebastianbergmann/phpunit-mock-objects.git \
-    && git clone git://github.com/sebastianbergmann/phpunit-selenium.git \
-    && git clone git://github.com/sebastianbergmann/phpunit-story.git \
-    && git clone git://github.com/sebastianbergmann/php-invoker.git \
-    && cd ~/phpunit/phpunit && git checkout 3.5 \
-    && cd ~/phpunit/dbunit && git checkout 1.1 \
-    && cd ~/phpunit/php-file-iterator && git checkout 1.2 \
-    && cd ~/phpunit/php-timer && git checkout 1.0.1 \
-    && cd ~/phpunit/php-text-template && git checkout 1.1.2 \
-    && cd ~/phpunit/php-token-stream && git checkout 1.1.1 \
-    && cd ~/phpunit/php-code-coverage && git checkout 1.0 \
-    && cd ~/phpunit/phpunit-mock-objects && git checkout 1.1 \
-    && cd ~/phpunit/phpunit-selenium && git checkout 1.1 \
-    && chmod +x ~/phpunit/phpunit/phpunit.php \
-    && ln -s ~/phpunit/phpunit/phpunit.php /usr/bin/phpunit \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false git \
-    && apt-get autoremove
-
-RUN echo 'include_path = ".:/root/phpunit/phpunit:/root/phpunit/phpunit-mock-objects:/root/phpunit/php-timer:/root/phpunit/php-text-template:/root/phpunit/php-token-stream:/usr/local/lib/php:/root/phpunit/dbunit:/root/phpunit/php-file-iterator:/root/phpunit/php-code-coverage"' > /usr/local/etc/php/php.ini
+RUN curl -SL --insecure "https://phar.phpunit.de/phpunit.phar" -o phpunit.phar \
+    && chmod +x phpunit.phar \
+    && mv phpunit.phar /usr/bin/phpunit
+    
 
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list \
     && echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list \
@@ -164,12 +131,20 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
     && apt-get install -y oracle-java8-installer --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN cd ~ \
-    && curl -SL "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz" -o elasticsearch-1.7.1.tar.gz --insecure \
-    && tar -xf elasticsearch-1.7.1.tar.gz \
-    && ln -s ~/elasticsearch-1.7.1/bin/elasticsearch /usr/bin/elasticsearch
-
 RUN apt-get update \
     && apt-get install -y subversion git ssh wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
+
+RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+RUN wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    && echo "deb http://packages.elastic.co/elasticsearch/1.7/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.7.list \
+    && apt-get update \
+    && apt-get install elasticsearch \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "alias elasticsearch=\"service elasticsearch\"" >> ~/.bashrc
 

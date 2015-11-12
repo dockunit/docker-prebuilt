@@ -132,11 +132,6 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
     && apt-get install -y oracle-java8-installer --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN cd ~ \
-    && curl -SL "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz" -o elasticsearch-1.7.1.tar.gz --insecure \
-    && tar -xf elasticsearch-1.7.1.tar.gz \
-    && ln -s ~/elasticsearch-1.7.1/bin/elasticsearch /usr/bin/elasticsearch
-
 RUN apt-get update \
     && apt-get install -y subversion git ssh wget --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
@@ -145,3 +140,12 @@ RUN ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
+
+RUN wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    && echo "deb http://packages.elastic.co/elasticsearch/1.7/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-1.7.list \
+    && apt-get update \
+    && apt-get install elasticsearch \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "alias elasticsearch=\"service elasticsearch\"" >> ~/.bashrc
+
