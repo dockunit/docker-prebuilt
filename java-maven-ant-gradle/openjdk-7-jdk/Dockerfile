@@ -8,7 +8,7 @@ RUN curl -fsSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binar
 
 ENV MAVEN_HOME /usr/share/maven
 
-ENV GRADLE_VERSION 2.7
+ENV GRADLE_VERSION 2.8
 ENV GRADLE_HASH fe801ce2166e6c5b48b3e7ba81277c41
 WORKDIR /usr/lib
 RUN wget https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
