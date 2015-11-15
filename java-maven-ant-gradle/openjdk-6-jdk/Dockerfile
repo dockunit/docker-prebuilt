@@ -26,4 +26,7 @@ RUN cd && \
     mv apache-ant-${ANT_VERSION} /opt/ant && \
     rm apache-ant-${ANT_VERSION}-bin.tar.gz
 ENV ANT_HOME /opt/ant
+
 ENV PATH ${PATH}:/opt/ant/bin
+
+ENV JAVA_HOME /usr/lib/jvm/java-6-openjdk-amd64
